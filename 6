@@ -1,0 +1,115 @@
+#include "pch.h"
+#include <iostream>
+#include <Math.h>
+
+using namespace std;
+
+void main()
+{
+	setlocale(LC_ALL, "Russian");
+	int menu, n, i, j, minind, t, min;
+	while (true) {
+		cout << "Введите номер задания (1-3): ";
+		cin >> menu;
+		switch (menu)
+		{
+			case 1:
+			{
+				cout << "Введите количество элементов: ";
+				cin >> n;
+				int* a = new int[n];
+				for (i = 0; i < n; i++)
+				{
+					cout << "a[" << i + 1 << "] = ";
+					cin >> a[i];
+				}
+				cout << endl;
+
+				for (i = 0; i < n - 1; i++)
+				{
+					min = a[i];
+					minind = i;
+					for (j = i + 1; j < n; j++)
+					{
+						if (a[j] < min)
+						{
+							min = a[j];
+							minind = j;
+						}
+					}
+					t = a[i];
+					a[i] = min;
+					a[minind] = t;
+				}
+				for (i = 0; i < n; i++)
+				{
+					cout << "a[" << i + 1 << "] = " << a[i] << endl;
+				}
+			} break;
+
+			case 2:
+			{
+				cout << "Введите количество элементов: ";
+				cin >> n;
+				int* a = new int[n];
+				for (i = 0; i < n; i++)
+				{
+					cout << "a[" << i + 1 << "] = ";
+					cin >> a[i];
+				}
+				cout << endl;
+				for (i = 0; i < n - 1; i++)
+				{
+					for (j = 0; j < n - 1; j++)
+					{
+						if (a[j] < a[j + 1])
+						{
+							t = a[j];
+							a[j] = a[j + 1];
+							a[j + 1] = t;
+						}
+					}
+				}
+				for (i = 0; i < n; i++)
+				{
+					cout << "a[" << i + 1 << "] = " << a[i] << endl;
+				}
+
+			} break;
+
+			case 3:
+			{
+				cout << "Введите n: ";
+				cin >> n;
+				int** a = new int*[n];
+				for (i = 0; i < n; i++)
+				{
+					a[i] = new int[n];
+					for (j = 0; j < n; j++)
+					{
+						cin >> a[i][j];
+					}
+				}
+				cout << endl;
+				for (i = 0; i < n - 1; i++)
+				{
+					for (j = 0; j < n - 1; j++)
+					{
+						if (a[j][j] > a[j + 1][j + 1])
+						{
+							t = a[j][j];
+							a[j][j] = a[j + 1][j + 1];
+							a[j + 1][j + 1] = t;
+						}
+					}
+				}
+				cout << "Изменённая матрица: " << endl;
+				for (i = 0; i < n; i++)
+				{
+					for (j = 0; j < n; j++)	cout << a[i][j] << "\t";
+					cout << endl;
+				}
+			} break;
+		}
+	}
+}
