@@ -1,0 +1,233 @@
+#include "pch.h"
+#include <iostream>
+#include <Math.h>
+
+using namespace std;
+
+void main()
+{
+	setlocale(LC_ALL, "Russian");
+	int menu, n, i, j, min, max, minind, maxind, maxi, maxj, mini, minj, t, m, k, sum, pr;
+	while (true) {
+		cout << "Введите номер задания (1-5): ";
+		cin >> menu;
+		switch (menu)
+		{
+			case 1:
+			{
+				max = -2147483647, maxi = 0, maxj = 0, min = 2147483647, mini = 0, minj = 0;
+				cout << "Введите порядок матрицы: ";
+				cin >> n;
+				cout << "Заполните матрицу: " << endl;
+				int** a = new int*[n];
+				for (i = 0; i < n; i++)
+				{
+					a[i] = new int[n];
+					for (j = 0; j < n; j++)
+					{
+						cin >> a[i][j];
+						if (a[i][j] > max)
+						{
+							max = a[i][j];
+							maxi = i;
+							maxj = j;
+						}
+						if (a[i][j] < min)
+						{
+							min = a[i][j];
+							mini = i;
+							minj = j;
+						}
+					}
+				}
+
+				cout << "Максимальный элемент матрицы: " << max << ", его индекс - (" << maxi << ", " << maxj << ")" << endl;
+				cout << "Минимальный элемент матрицы:  " << min << ", его индекс - (" << mini << ", " << minj << ")" << endl;
+
+			} break;
+
+			case 2:
+			{
+				maxind = 0;
+				cout << "Введите порядок матрицы: ";
+				cin >> n;
+				cout << "Заполните матрицу: " << endl;
+				int** a = new int*[n];
+				for (i = 0; i < n; i++)
+				{
+					max = -2147483647;
+					a[i] = new int[n];
+					for (j = 0; j < n; j++)
+					{
+						cin >> a[i][j];
+						if (a[i][j] > max)
+						{
+							max = a[i][j];
+							maxind = j;
+						}
+					}
+					t = a[i][i];
+					a[i][i] = max;
+					a[i][maxind] = t;
+				}
+
+				for (i = 0; i < n; i++)
+				{
+					for (j = 0; j < n; j++) cout << a[i][j] << "\t";
+					cout << endl;
+				}
+
+			} break;
+
+			case 3:
+			{
+				cout << "Введите кол-во строк матрицы: ";
+				cin >> n;
+				cout << "Введите кол-во столбцов матрицы: ";
+				cin >> m;
+				cout << "Заполните матрицу: " << endl;
+				int** a = new int*[n];
+				for (i = 0; i < n; i++)
+				{
+					a[i] = new int[m];
+					for (j = 0; j < m; j++)
+					{
+						cin >> a[i][j];
+					}
+					cout << endl;
+				}
+
+				for (i = 0; i < n; i++)
+				{
+					sum = 0; pr = 1;
+					for (j = 0; j < m; j++)
+					{
+						sum += a[i][j];
+						pr *= a[i][j];
+					}
+					cout << sum << " " << pr << endl;
+				}
+
+			} break;
+
+			case 4:
+			{
+				cout << "Введите кол-во строк матрицы: ";
+				cin >> n;
+				cout << "Введите кол-во столбцов матрицы: ";
+				cin >> m;
+				cout << "Заполните матрицу: " << endl;
+				int** a = new int*[n];
+				for (i = 0; i < n; i++)
+				{
+					a[i] = new int[m];
+					for (j = 0; j < m; j++)
+					{
+						cin >> a[i][j];
+					}
+				}
+
+
+				for (j = 0; j < m; j++)
+				{
+					sum = 0;
+					for (i = 0; i < n; i++)
+					{
+						if (a[i][j] > 0) sum += a[i][j];
+					}
+					cout << sum << " ";
+				}
+				cout << endl;
+
+
+				for (j = 0; j < m; j++)
+				{
+					k = 0;
+					for (i = 0; i < n; i++)
+					{
+						if (a[i][j] > 0) k++;
+					}
+					cout << k << " ";
+				}
+				cout << endl;
+
+			} break;
+
+			case 5:
+			{
+				cout << "Введите порядок квадратной матрицы: ";
+				cin >> n;
+
+				int** a = new int*[n];
+				cout << "Заполните квадратную матрицу: " << endl;
+				for (i = 0; i < n; i++)
+				{
+					a[i] = new int[n];
+					for (j = 0; j < n; j++)
+					{
+						cin >> a[i][j];
+					}
+				}
+
+				int pr = 1;
+				int k = 0;
+				for (i = 1; i < n; i++)
+				{
+					for (j = 0; j < i; j++)
+					{
+						k++;
+						pr *= a[i][j];
+					}
+				}
+				cout << "1. Произведение элементов, находящихся под главной диагональю: " << pr << endl;
+				cout << "   Кол-во элементов, находящихся под главной диагональю: " << k << endl;
+
+				int sum = 0;
+				k = 0;
+				for (i = 0; i < n - 1; i++)
+				{
+					for (j = i + 1; j < n; j++)
+					{
+						k++;
+						sum += a[i][j];
+					}
+				}
+				cout << "2. Сумма элементов, находящихся над главной диагональю: " << sum << endl;
+				cout << "   Кол-во элементов, находящихся над главной диагональю: " << k << endl;
+
+				pr = 1;
+				k = 0;
+				for (i = 1; i < n; i++)
+				{
+					for (j = 0; j < i; j++)
+					{
+						if (a[i][j] > 0)
+						{
+							k++;
+							pr *= a[i][j];
+						}
+					}
+				}
+				cout << "3. Произведение положительных элементов, находящихся под главной диагональю: " << pr << endl;
+				cout << "   Кол-во положительных элементов, находящихся под главной диагональю: " << k << endl;
+
+				sum = 0;
+				k = 0;
+				for (i = 0; i < n - 1; i++)
+				{
+					for (j = i + 1; j < n; j++)
+					{
+						if (a[i][j] < 0)
+						{
+							k++;
+							sum += a[i][j];
+						}
+					}
+				}
+				cout << "4. Сумма отрицательных элементов, находящихся над главной диагональю: " << sum << endl;
+				cout << "   Кол-во отрицательных элементов, находящихся над главной диагональю: " << k << endl;
+
+			} break;
+		}
+	}
+}
