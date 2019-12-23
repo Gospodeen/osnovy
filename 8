@@ -1,0 +1,393 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.IO;
+using System.Diagnostics;
+
+namespace Laba8
+{
+    class Program
+    {
+        static void Bubble(int[] arr)
+        {
+            Stopwatch time = new Stopwatch();
+            int temp;
+            long itcount = 0;
+            time.Start();
+            for (int i = 0; i < arr.Length - 1; i++)
+            {
+                for (int j = 0; j < arr.Length - i - 1; j++)
+                {
+                    if (arr[j + 1] < arr[j])
+                    {
+                        temp = arr[j + 1];
+                        arr[j + 1] = arr[j];
+                        arr[j] = temp;
+                    }
+                    itcount++;
+                }
+            }
+            time.Stop();
+            Console.WriteLine("Сортировка пузырьком: ");
+            Console.WriteLine("Итерации - {0}", itcount);
+            Console.WriteLine("Времени прошло - {0}\n", time.Elapsed);
+        }
+        static void Select(int[] arr)
+        {
+            Stopwatch time = new Stopwatch();
+            int min, temp;
+            long itcount = 0;
+            time.Start();
+            for (int i = 0; i < arr.Length - 1; i++)
+            {
+                min = i;
+                for (int j = i + 1; j < arr.Length; j++)
+                {
+                    if (arr[j] < arr[min])
+                    {
+                        min = j;
+                    }
+                    itcount++;
+                }
+
+                if (min != i)
+                {
+                    temp = arr[i];
+                    arr[i] = arr[min];
+                    arr[min] = temp;
+                }
+
+            }
+            time.Stop();
+            Console.WriteLine("Сортировка выбором: ");
+            Console.WriteLine("Итерации - {0}", itcount);
+            Console.WriteLine("Времени прошло - {0}\n", time.Elapsed);
+        }
+        static void Insertion(int[] arr)
+        {
+            Stopwatch time = new Stopwatch();
+            time.Start();
+            int current, j;
+            long itcount = 0;
+            for (int i = 1; i < arr.Length; i++)
+            {
+                current = arr[i];
+                j = i;
+                while (j > 0 && current < arr[j - 1])
+                {
+                    arr[j] = arr[j - 1];
+                    j--;
+                    itcount++;
+                }
+                arr[j] = current;
+            }
+            time.Stop();
+            Console.WriteLine("Сортировка вставками: ");
+            Console.WriteLine("Итерации - {0}", itcount);
+            Console.WriteLine("Времени прошло - {0}\n", time.Elapsed);
+        }
+        static void Gnome(int[] arr)
+        {
+            Stopwatch time = new Stopwatch();
+            int temp, i = 1, j = 2;
+            long itcount = 0;
+            time.Start();
+            while (i < arr.Length)
+            {
+                if (arr[i - 1] <= arr[i])
+                {
+                    i = j;
+                    j++;
+                }
+                else
+                {
+                    temp = arr[i - 1];
+                    arr[i - 1] = arr[i];
+                    arr[i] = temp;
+                    i--;
+                    if (i == 0)
+                    {
+                        i = j;
+                        j++;
+                    }
+                }
+                itcount++;
+            }
+            time.Stop();
+            Console.WriteLine("Гномья сортировка: ");
+            Console.WriteLine("Итерации - {0}", itcount);
+            Console.WriteLine("Времени прошло - {0}\n", time.Elapsed);
+        }
+        static void Quick(int[] arr, int l, int r, ref long itcount)
+        {
+            int i = l;
+            int j = r;
+            int x = arr[(l + r) / 2];
+
+            while (i <= j)
+            {
+
+                while (arr[i] < x)
+                {
+                    itcount++;
+                    i++;
+                }
+                while (arr[j] > x)
+                {
+                    j--;
+                    itcount++;
+                }
+                if (i <= j)
+                {
+                    itcount++;
+                    int temp = arr[i];
+                    arr[i] = arr[j];
+                    arr[j] = temp;
+                    i++;
+                    j--;
+                }
+            }
+
+            if (l < j) Quick(arr, l, j, ref itcount);
+            if (i < r) Quick(arr, i, r, ref itcount);
+
+
+        }
+
+        static void Main(string[] args)
+        {
+            int menu;
+            while (true)
+            {
+                Console.WriteLine("Введите номер задания(1-6):");
+                menu = Convert.ToInt32(Console.ReadLine());
+                switch(menu)
+                {
+                    case 1:
+                        {
+                            Console.WriteLine("Введите коэффициенты первого уравнения: ");
+                            int a1 = Convert.ToInt32(Console.ReadLine());
+                            int b1 = Convert.ToInt32(Console.ReadLine());
+                            int c1 = Convert.ToInt32(Console.ReadLine());
+                            int d1 = Convert.ToInt32(Console.ReadLine());
+                            Console.WriteLine("Введите коэффициенты второго уравнения: ");
+                            int a2 = Convert.ToInt32(Console.ReadLine());
+                            int b2 = Convert.ToInt32(Console.ReadLine());
+                            int c2 = Convert.ToInt32(Console.ReadLine());
+                            int d2 = Convert.ToInt32(Console.ReadLine());
+                            Console.WriteLine("Введите коэффициенты третьего уравнения: ");
+                            int a3 = Convert.ToInt32(Console.ReadLine());
+                            int b3 = Convert.ToInt32(Console.ReadLine());
+                            int c3 = Convert.ToInt32(Console.ReadLine());
+                            int d3 = Convert.ToInt32(Console.ReadLine());
+                            double x, y, z;
+                            double opr = a1 * b2 * c3 + a2 * b3 * c1 + a3 * b1 * c2 - (a3 * b2 * c1 + a2 * b1 * c3 + a1 * b3 * c2);
+                            double opr1 = d1 * b2 * c3 + d2 * b3 * c1 + d3 * b1 * c2 - (d3 * b2 * c1 + d2 * b1 * c3 + d1 * b3 * c2);
+                            double opr2 = a1 * d2 * c3 + a2 * d3 * c1 + a3 * d1 * c2 - (a3 * d2 * c1 + a2 * d1 * c3 + a1 * d3 * c2);
+                            double opr3 = a1 * b2 * d3 + a2 * b3 * d1 + a3 * b1 * d2 - (a3 * b2 * d1 + a2 * b1 * d3 + a1 * b3 * d2);
+                            x = opr1 / opr;
+                            y = opr2 / opr;
+                            z = opr3 / opr;
+                            Console.WriteLine("x = {0}, y = {1}, z = {2}", x, y, z);
+                        }
+                        break;
+
+                    case 2:
+                        {
+                            double e = 1e-10f;
+                            Console.WriteLine("Введите число: ");
+                            int q = Convert.ToInt32(Console.ReadLine());
+                            double xc = 1;
+                            double xn = q;
+                            while (e <= Math.Abs(xn - xc))
+                            {
+                                xc = xn;
+                                xn = (xc + q / xc) / 2;
+                            }
+                            Console.WriteLine("Корень по формуле Ньютона: {0}", xn);
+                            Console.WriteLine("Корень по стандартному виду: {0}", Math.Sqrt(q));
+                        }
+                        break;
+
+                    case 3:
+                        {
+                            Console.Write("Введите N: ");
+                            int n = Convert.ToInt32(Console.ReadLine());
+                            int b, k;
+                            while (n > 10)
+                            {
+                                b = n;
+                                k = 0;
+                                while (b > 10)
+                                {
+                                    b /= 10;
+                                    k++;
+                                }
+                                Console.WriteLine(b);
+                                n = n % Convert.ToInt32(Math.Pow(10, k));
+                            }
+                            Console.WriteLine(n);
+
+                        }
+                        break;
+
+                    case 4:
+                        {
+                            Console.Write("Введите N: ");
+                            int n = Convert.ToInt32(Console.ReadLine());
+
+                            int[,] array = new int[n, n];
+                            array[0, 0] = array[1, 0] = array[1, 1] = 1;
+
+                            for (int i = 2; i < n; i++)
+                            {
+
+                                array[i, 0] = 1;
+                                for (int j = 1; j < i; j++)
+                                {
+                                    array[i, j] = array[i - 1, j] + array[i - 1, j - 1];
+                                }
+                                array[i, i] = 1;
+                            }
+
+                            for (int i = 0; i < n; i++)
+                            {
+                                for (int j = 0; j <= i; j++)
+                                {
+                                    Console.Write("{0} ", array[i, j]);
+                                }
+                                Console.WriteLine();
+                            }
+                        }
+                        break;
+
+                    case 5:
+                        {
+                            string filename = ("file.txt");
+                            int action, maxstrlength;
+                            string textin, textout;
+                            string[] textarr;
+
+                            Console.WriteLine("1 - Запись в файл с клавиатуры\n2 - Чтение из файла\n3 - Построчное считывание строк файла и их перезапись задом наперед\n4 - Поиск и вывод самой длинной строки в файле\n5 - Перемешать строки в файле\n6 - очистить файл");
+                        again:
+                            Console.Write("Номер действия - ");
+                            action = Convert.ToInt32(Console.ReadLine());
+
+                            switch (action)
+                            {
+                                case 1:
+                                    Console.WriteLine("Введите текст: ");
+                                    textin = Console.ReadLine();
+                                    File.AppendAllText(filename, textin);
+                                    File.AppendAllText(filename, "\n");
+                                    break;
+                                case 2:
+                                    textout = File.ReadAllText(filename);
+                                    Console.WriteLine("Текст в файле: ");
+                                    Console.WriteLine("{0}", textout);
+                                    break;
+                                case 3:
+                                    textarr = File.ReadAllLines(filename);
+                                    File.WriteAllText(filename, null);
+                                    for (int i = 0; i < textarr.Length / 2; i++)
+                                    {
+                                        string tmp = textarr[i];
+                                        textarr[i] = textarr[textarr.Length - 1 - i];
+                                        textarr[textarr.Length - 1 - i] = tmp;
+                                    }
+                                    File.WriteAllLines(filename, textarr);
+                                    break;
+                                case 4:
+                                    maxstrlength = -1;
+                                    textarr = File.ReadAllLines(filename);
+                                    for (int i = 0; i < textarr.GetLength(0); i++)
+                                    {
+                                        if (textarr[i].Length > maxstrlength) maxstrlength = textarr[i].Length;
+                                    }
+                                    Console.WriteLine("Длина самой длинной строки - {0}", maxstrlength);
+                                    break;
+                                case 5:
+                                    textarr = File.ReadAllLines(filename);
+                                    Random rand = new Random();
+
+                                    for (int i = textarr.Length - 1; i >= 1; i--)
+                                    {
+                                        int j = rand.Next(i + 1);
+                                        string tmp = textarr[j];
+                                        textarr[j] = textarr[i];
+                                        textarr[i] = tmp;
+                                    }
+                                    File.WriteAllText(filename, null);
+                                    File.WriteAllLines(filename, textarr);
+                                    break;
+                                case 6:
+                                    File.WriteAllText(filename, null);
+                                    break;
+                                default:
+                                    Console.WriteLine("Неправильно введён номер действия");
+                                    break;
+                            }
+                        }
+                        break;
+
+                    case 6:
+                        {
+                            Random rand = new Random();
+                            int n, i;
+                            int[] arr;
+                            int[] arrorig;
+
+                            Console.WriteLine("Введите кол-во элементов массива: ");
+                            n = Convert.ToInt32(Console.ReadLine());
+                            Console.WriteLine();
+                            arr = new int[n];
+                            arrorig = new int[n];
+                            for (i = 0; i < n; i++)
+                            {
+                                arrorig[i] = rand.Next();
+                            }
+
+                            for (i = 0; i < n; i++)
+                            {
+                                arr[i] = arrorig[i];
+                            }
+                            Bubble(arr);
+                            for (i = 0; i < n; i++)
+                            {
+                                arr[i] = arrorig[i];
+                            }
+                            Select(arr);
+                            for (i = 0; i < n; i++)
+                            {
+                                arr[i] = arrorig[i];
+                            }
+                            Insertion(arr);
+                            for (i = 0; i < n; i++)
+                            {
+                                arr[i] = arrorig[i];
+                            }
+                            Gnome(arr);
+                            for (i = 0; i < n; i++)
+                            {
+                                arr[i] = arrorig[i];
+                            }
+
+                            Stopwatch time = new Stopwatch();
+                            long itcount = 0;
+                            time.Start();
+                            Quick(arr, 0, n - 1, ref itcount);
+                            time.Stop();
+                            Console.WriteLine("Быстрая сортировка:");
+                            Console.WriteLine("Итерации - {0}", itcount);
+                            Console.WriteLine("Времени прошло - {0}\n", time.Elapsed);
+                            time.Reset();
+
+                        }
+                        break;
+                }
+            }
+        }
+    }
+}
