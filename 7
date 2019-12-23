@@ -1,0 +1,92 @@
+#include "pch.h"
+#include <string>
+#include <iostream>
+#include <Math.h>
+#include <Windows.h>
+
+using namespace std;
+
+void main()
+{
+	SetConsoleCP(1251);
+	SetConsoleOutputCP(1251);
+	setlocale(LC_ALL, "Russian");
+	int menu, i, j, k;
+	char c;
+	string s1, s2;
+	while (true) {
+		cout << "Введите номер задания (1-4): ";
+		cin >> menu;
+		switch (menu)
+		{
+			case 1:
+			{
+				cout << "Введите строку: ";
+				cin >> s1;
+
+				cout << "Длина строки: " << s1.length() << endl;
+			} break;
+
+			case 2:
+			{
+				cout << "Введите строку: ";
+				cin.ignore();
+				getline(cin, s1);
+
+				for (i = 0; i < s1.length(); i++)
+				{
+
+					if (isupper(s1[i]))
+					{
+						s1[i] = tolower(s1[i]);
+					}
+				}
+				cout << s1 << endl;
+			} break;
+
+			case 3:
+			{
+				cout << "Введите первую строку: ";
+				cin.ignore();
+				getline(cin, s1);
+				cout << "Введите вторую строку: ";
+				getline(cin, s2);
+				for (i = 0; i < s1.length(); i++)
+				{
+					s1[i] = tolower(s1[i]);
+				}
+				for (i = 0; i < s2.length(); i++)
+				{
+					s2[i] = tolower(s2[i]);
+				}
+				if (s1 == s2)
+				{
+					cout << "yes" << endl;
+				}
+				else cout << "no" << endl;
+			} break;
+
+			case 4:
+			{
+				s2 = "";
+				k = 0;
+				cout << "Введите строку: ";
+				cin.ignore();
+				getline(cin, s1);
+				for (i = 0; i < s1.length(); i++)
+				{
+					if (s1[i] != ' ') s2 += tolower(s1[i]);
+				}
+				for (i = 0; i < s2.length() / 2; i++)
+				{
+					if (s2[i] != s2[s2.length() - i - 1])
+					{
+						k++;
+					}
+				}
+				if (k > 0) cout << "Строка - не перевёртыш" << endl;
+				else cout << "Строка - перевёртыш" << endl;
+			} break;
+		}
+	}
+}
